@@ -6,7 +6,9 @@
   "bracketSameLine": true,
   "importOrder": [
     "^react$",
+    "^@remix-run/cloudflare",
     "^@remix-run/(.*)$",
+    "^@prisma/(.*)$",
     "<THIRD_PARTY_MODULES>",
     "^[./]"
   ],
