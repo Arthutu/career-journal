@@ -52,5 +52,5 @@ export default {
             sans: ["Inter", ...defaultTheme.fontFamily.sans],
         },
     },
-    plugins: [],
+    plugins: [require("tailwindcss-react-aria-components")],
 };

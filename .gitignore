@@ -3,7 +3,13 @@ node_modules
 /.cache
 /build
 /public/build
+
 .env
+.dev.vars
+
+worker-configuration.d.ts
 /.wrangler
-/prisma/dev.db*
 /wrangler.toml
+
+/prisma/dev.db*
+.DS_Store

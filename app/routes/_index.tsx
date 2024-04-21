@@ -6,12 +6,13 @@ import { useLoaderData } from "@remix-run/react";
 import type { User } from "@prisma/client";
 
 import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/remix";
+import { Button } from "react-aria-components";
 
 export const meta: MetaFunction = () => {
     return [{ title: "Career Journal" }];
 };
 
-export let loader: LoaderFunction = async ({ context }) => {
+export const loader: LoaderFunction = async ({ context }) => {
     const users = await context.db.user.findMany();
 
     return json(users);
@@ -28,9 +29,10 @@ export default function Index() {
                 <main>
                     <ul>
                         {users.map((user) => (
-                            <li key={user.id}>{user.name}</li>
+                            <li key={user.id}>{user.firstName}</li>
                         ))}
                     </ul>
+                    <Button>Click Me</Button>
                 </main>
             </SignedIn>
             <SignedOut>

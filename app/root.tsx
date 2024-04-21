@@ -16,7 +16,7 @@ import "./tailwind.css";
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 
 export function links() {
-    let preloadedFonts = [
+    const preloadedFonts = [
         "inter-roman-latin-var.woff2",
         "inter-italic-latin-var.woff2",
     ];
