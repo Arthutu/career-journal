@@ -3,21 +3,17 @@ import { Link } from "@remix-run/react";
 import { Gear, SidebarSimple } from "@phosphor-icons/react";
 
 import { Button } from "./button";
+import { Logo } from "./logo";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 export function Sidenav() {
     return (
         <>
-            <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r sm:flex bg-white">
+            <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
                 <nav className="flex flex-col items-center gap-4 py-2">
                     <Link to="/">
-                        <img
-                            src="./career-journal-logo.svg"
-                            alt="Career Journal Logo"
-                            width={32}
-                            height={32}
-                        />
+                        <Logo />
                     </Link>
                 </nav>
                 <nav className="mt-auto flex flex-col items-center gap-4 sm:py-5">
@@ -50,12 +46,7 @@ export function Sidenav() {
                     <SheetContent side="left" className="sm:max-w-xs">
                         <nav className="grid gap-6 text-lg font-medium">
                             <Link to="/" className="flex items-center gap-4">
-                                <img
-                                    src="./career-journal-logo.svg"
-                                    alt="Career Journal Logo"
-                                    width={32}
-                                    height={32}
-                                />
+                                <Logo />
                                 Career Journal
                             </Link>
 
