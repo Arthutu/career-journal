@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/cloudflare";
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 
 import {
     Links,
@@ -6,14 +6,29 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
+    useLoaderData,
 } from "@remix-run/react";
 
 import { ClerkApp } from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import clsx from "clsx";
+import {
+    PreventFlashOnWrongTheme,
+    ThemeProvider,
+    useTheme,
+} from "remix-themes";
 
+import { themeSessionResolver } from "./sessions.server";
 import "./tailwind.css";
+import { TooltipProvider } from "./ui/tooltip";
 
-export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+export const loader = (args: LoaderFunctionArgs) => {
+    return rootAuthLoader(args, async ({ request }) => {
+        const { getTheme } = await themeSessionResolver(request);
+
+        return { theme: getTheme() };
+    });
+};
 
 export function links() {
     const preloadedFonts = [
@@ -31,9 +46,12 @@ export function links() {
     ];
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+function App() {
+    const data = useLoaderData<typeof loader>();
+    const [theme] = useTheme();
+
     return (
-        <html lang="en">
+        <html lang="en" className={clsx(theme)}>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -42,9 +60,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <Meta />
                 <Links />
+                <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
             </head>
             <body className="min-h-screen w-full antialiased">
-                {children}
+                <Outlet />
                 <ScrollRestoration />
                 <Scripts />
             </body>
@@ -52,11 +71,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
 }
 
-function App() {
-    return <Outlet />;
+function AppWithProviders() {
+    const data = useLoaderData<typeof loader>();
+
+    return (
+        <ThemeProvider
+            specifiedTheme={data.theme}
+            themeAction="/action/set-theme">
+            <TooltipProvider delayDuration={0}>
+                <App />
+            </TooltipProvider>
+        </ThemeProvider>
+    );
 }
 
-export default ClerkApp(App, {
+export default ClerkApp(AppWithProviders, {
     appearance: {
         layout: {
             termsPageUrl: "https://thecareerjournal.com/terms",
