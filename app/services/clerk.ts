@@ -31,7 +31,7 @@ class ClerkUserCreatedEventHandler implements ClerkEventHandler {
             );
         }
 
-        await this.db.user.create({
+        await this.db.users.create({
             data: {
                 email: event.data.email_addresses[0].email_address,
                 firstName: event.data.first_name,

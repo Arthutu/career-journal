@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-import { Gear, SidebarSimple } from "@phosphor-icons/react";
+import { Gear, SidebarSimple, Target } from "@phosphor-icons/react";
 
 import { Button } from "./button";
 import { Logo } from "./logo";
@@ -15,18 +15,30 @@ export function Sidenav() {
                     <Link to="/">
                         <Logo />
                     </Link>
+
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Link
+                                to="/goals"
+                                className="flex h-9 w-9 rounded-lg md:h-8 md:w-8">
+                                <Target size={32} />
+                                <span className="sr-only">Goals</span>
+                            </Link>
+                        </TooltipTrigger>
+
+                        <TooltipContent side="right">Goals</TooltipContent>
+                    </Tooltip>
                 </nav>
                 <nav className="mt-auto flex flex-col items-center gap-4 sm:py-5">
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Link
                                 to="/settings"
-                                className="flex h-9 w-9 rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                                className="flex h-9 w-9 rounded-lg md:h-8 md:w-8">
                                 <Gear size={32} />
                                 <span className="sr-only">Settings</span>
                             </Link>
                         </TooltipTrigger>
-
                         <TooltipContent side="right">Settings</TooltipContent>
                     </Tooltip>
                 </nav>
@@ -51,8 +63,15 @@ export function Sidenav() {
                             </Link>
 
                             <Link
+                                to="/goals"
+                                className="flex items-center gap-4">
+                                <Target size={32} />
+                                Goals
+                            </Link>
+
+                            <Link
                                 to="/settings"
-                                className="flex items-center gap-4 text-muted-foreground hover:text-foreground">
+                                className="flex items-center gap-4">
                                 <Gear size={32} />
                                 Settings
                             </Link>

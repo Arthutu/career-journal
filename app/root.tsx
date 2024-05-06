@@ -9,7 +9,7 @@ import {
     useLoaderData,
 } from "@remix-run/react";
 
-import { ClerkApp } from "@clerk/remix";
+import { ClerkApp, SignedIn, SignedOut } from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import clsx from "clsx";
 import {
@@ -17,10 +17,11 @@ import {
     ThemeProvider,
     useTheme,
 } from "remix-themes";
+import { TooltipProvider } from "~/ui/tooltip";
 
 import { themeSessionResolver } from "./sessions.server";
 import "./tailwind.css";
-import { TooltipProvider } from "./ui/tooltip";
+import { Sidenav } from "./ui/sidenav";
 
 export const loader = (args: LoaderFunctionArgs) => {
     return rootAuthLoader(args, async ({ request }) => {
@@ -63,7 +64,20 @@ function App() {
                 <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
             </head>
             <body className="min-h-screen w-full antialiased">
-                <Outlet />
+                <SignedIn>
+                    <div className="flex min-h-screen w-full flex-col bg-muted/40 h-screen">
+                        <Sidenav />
+
+                        <main className="px-4 py-4 sm:px-0 sm:pl-20 sm:pr-6">
+                            <Outlet />
+                        </main>
+                    </div>
+                </SignedIn>
+
+                <SignedOut>
+                    <Outlet />
+                </SignedOut>
+
                 <ScrollRestoration />
                 <Scripts />
             </body>
